@@ -22,6 +22,16 @@
             text-align: center;
             position: relative;
         }
+        .icon-container {
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    display: flex;
+    gap: 10px;
+    padding-right: 15px; /* Adiciona espaço antes da borda direita */
+}
+
         .menu-icon {
             position: absolute;
             left: 15px;
@@ -30,6 +40,62 @@
             font-size: 24px;
             cursor: pointer;
         }
+        .image-container {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin: 20px 0;
+        }
+        .image-container img {
+            width: 20%;
+            max-width: 150px;
+            border-radius: 10px;
+        }
+        .icon-container {
+    position: absolute;
+    right: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    display: flex;
+    gap: 15px; /* Espaço entre os ícones */
+}
+
+.icon-container img {
+    width: 30px; /* Ajuste o tamanho conforme necessário */
+    height: 30px;
+    cursor: pointer;
+}
+.modal {
+    display: none; /* Começa oculto */
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-content {
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    width: 300px;
+    text-align: center;
+    color: black;
+    position: relative;
+}
+
+.close {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    font-size: 20px;
+    cursor: pointer;
+}
+
         .container {
             max-width: 800px;
             margin: auto;
@@ -76,10 +142,84 @@
         }
     </style>
 </head>
+<script>
+    function abrirModal() {
+        document.getElementById("loginModal").style.display = "flex";
+    }
+    
+    function fecharModal() {
+        document.getElementById("loginModal").style.display = "none";
+        limparCampos(); // Limpa os inputs ao fechar o modal
+    }
+    
+    function limparCampos() {
+        document.getElementById("nome").value = "";
+        document.getElementById("email").value = "";
+        document.getElementById("senha").value = "";
+    }
+    
+    function cadastrar() {
+        let nome = document.getElementById("nome").value;
+        let email = document.getElementById("email").value;
+        let senha = document.getElementById("senha").value;
+    
+        if (nome && email && senha) {
+            alert("Cadastro realizado com sucesso!");
+            limparCampos(); // Limpa os inputs após cadastro
+            fecharModal();
+        } else {
+            alert("Preencha todos os campos!");
+        }
+    }
+    
+    function login() {
+        let email = document.getElementById("email").value;
+        let senha = document.getElementById("senha").value;
+    
+        if (email && senha) {
+            alert("Login realizado com sucesso!");
+            limparCampos(); // Limpa os inputs após login
+            fecharModal();
+        } else {
+            alert("Preencha todos os campos!");
+        }
+    }
+    
+    function loginGoogle() {
+        alert("Redirecionando para login com Google...");
+        // Aqui você pode integrar com Firebase ou OAuth do Google no futuro
+    }
+    </script>
+    
+    
 <body>
     <div class="top-bar">
         <span class="menu-icon" onclick="window.location.href='pageone.html'">&#x22EE;</span> 
         REDE DO PROFISSIONAL
+        <div class="icon-container">
+            <img src="imagem/coracao.png" alt="Favoritos" title="Favoritos">
+            <img src="imagem/login.png" alt="Login" title="Login" onclick="abrirModal()">
+        </div>
+    </div>
+    <div id="loginModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="fecharModal()">&times;</span>
+            <h2>Login ou Cadastro</h2>
+    
+            <input type="text" id="nome" placeholder="Nome Completo">
+            <input type="email" id="email" placeholder="E-mail">
+            <input type="password" id="senha" placeholder="Senha">
+    
+            <button onclick="cadastrar()">Cadastrar</button>
+            <button onclick="login()">Login</button>
+            <button class="google-login" onclick="loginGoogle()">Login com Google</button>
+        </div>
+    </div>
+
+    <div class="image-container">
+        <img src="imagem/eletricista.jpg" alt="eletricista">
+        <img src="imagem/pintor.jpg" alt="pintor">
+        <img src="imagem/professor.jpg" alt="pintor">
     </div>
     
     <div class="container">
@@ -93,7 +233,8 @@
             <p class="message" id="msgProfissional">Cadastrado com sucesso!</p>
         </div>
 
-       
+        
+
         <h2 class="title" onclick="toggleForm('cadastros')">Profissionais Cadastrados</h2>
         <div id="cadastros" class="cadastro-container">
             <input type="text" id="filtroProfissao" placeholder="Qual profissional você precisa?">
