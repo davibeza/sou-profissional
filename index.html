@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>REDE DO PROFISSIONAL</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            text-align: center;
+            background: linear-gradient(45deg, #78BE20, #005A43);
+            padding: 20px;
+            color: white;
+            margin: 0;
+        }
+        .top-bar {
+            background: #005A43;
+            color: white;
+            padding: 15px;
+            font-size: 24px;
+            font-weight: bold;
+            text-align: center;
+            position: relative;
+        }
+        .menu-icon {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 24px;
+            cursor: pointer;
+        }
+        .container {
+            max-width: 800px;
+            margin: auto;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px #aaa;
+            color: black;
+            margin-top: 20px;
+        }
+        .title {
+            cursor: pointer;
+            color: #005A43;
+            margin-bottom: 10px;
+        }
+        .form-container, .cadastro-container {
+            display: none;
+            margin-top: 10px;
+        }
+        input, button, textarea {
+            margin: 5px;
+            padding: 10px;
+            width: 90%;
+        }
+        .profile-card {
+            border: 1px solid #ccc;
+            padding: 10px;
+            margin-bottom: 10px;
+            background: rgba(0, 0, 0, 0.05);
+            border-radius: 5px;
+            text-align: left;
+        }
+        footer {
+            margin-top: 20px;
+            padding: 10px;
+            background: #005A43;
+            color: white;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="top-bar">
+        <span class="menu-icon" onclick="window.location.href='pageone.html'">&#x22EE;</span> 
+        REDE DO PROFISSIONAL
+    </div>
+    
+    <div class="container">
+        <h2 class="title" onclick="toggleForm('profissional')">Profissionais</h2>
+        <div id="profissional" class="form-container">
+            <input type="file" id="fotoProfissional">
+            <input type="text" id="nomeProfissional" placeholder="Nome Completo">
+            <input type="text" id="telefoneProfissional" placeholder="Telefone">
+            <input type="email" id="emailProfissional" placeholder="E-mail">
+            <input type="text" id="profissaoProfissional" placeholder="Profissão">
+            <textarea id="descricaoProfissional" placeholder="Descrição"></textarea>
+            <button onclick="adicionar('profissional')">Cadastrar</button>
+        </div>
+
+        <h2 class="title" onclick="toggleForm('precisoProfissional')">Preciso de um Profissional</h2>
+        <div id="precisoProfissional" class="form-container">
+            <input type="text" id="nomeCliente" placeholder="Nome Completo">
+            <input type="text" id="telefoneCliente" placeholder="Telefone">
+            <input type="text" id="profissao" placeholder="Qual Profissional?">
+            <textarea id="descricaoCliente" placeholder="Descrição do Serviço"></textarea>
+            <button onclick="adicionar('precisoProfissional')">Cadastrar</button>
+        </div>
+
+        <h2 class="title" onclick="toggleForm('cadastros')">Pessoas Cadastradas</h2>
+        <div id="cadastros" class="cadastro-container">
+            <input type="text" id="filtroProfissao" placeholder="Qual profissional você precisa?">
+            <button onclick="filtrarProfissionais()">Buscar</button>
+            <div id="listaCadastros"></div>
+        </div>
+    </div>
+
+    <footer>
+        <p><strong>Proposta do site:</strong> Conectar profissionais a pessoas que precisam de serviços qualificados, facilitando o encontro entre oferta e demanda de maneira simples e acessível.</p>
+    </footer>
+</body>
+</html>
