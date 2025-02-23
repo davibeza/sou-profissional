@@ -80,22 +80,20 @@
     <div class="container">
         <h2 class="title" onclick="toggleForm('profissional')">Profissionais</h2>
         <div id="profissional" class="form-container">
-            <input type="file" id="fotoProfissional">
             <input type="text" id="nomeProfissional" placeholder="Nome Completo">
-            <input type="text" id="telefoneProfissional" placeholder="Telefone">
-            <input type="email" id="emailProfissional" placeholder="E-mail">
             <input type="text" id="profissaoProfissional" placeholder="Profissão">
+            <input type="text" id="telefoneProfissional" placeholder="Telefone">
             <textarea id="descricaoProfissional" placeholder="Descrição"></textarea>
-            <button onclick="adicionar('profissional')">Cadastrar</button>
+            <button onclick="adicionarProfissional()">Cadastrar</button>
         </div>
 
         <h2 class="title" onclick="toggleForm('precisoProfissional')">Preciso de um Profissional</h2>
         <div id="precisoProfissional" class="form-container">
             <input type="text" id="nomeCliente" placeholder="Nome Completo">
+            <input type="text" id="profissaoCliente" placeholder="Qual Profissional?">
             <input type="text" id="telefoneCliente" placeholder="Telefone">
-            <input type="text" id="profissao" placeholder="Qual Profissional?">
             <textarea id="descricaoCliente" placeholder="Descrição do Serviço"></textarea>
-            <button onclick="adicionar('precisoProfissional')">Cadastrar</button>
+            <button onclick="adicionarCliente()">Cadastrar</button>
         </div>
 
         <h2 class="title" onclick="toggleForm('cadastros')">Pessoas Cadastradas</h2>
@@ -109,5 +107,46 @@
     <footer>
         <p><strong>Proposta do site:</strong> Conectar profissionais a pessoas que precisam de serviços qualificados, facilitando o encontro entre oferta e demanda de maneira simples e acessível.</p>
     </footer>
+
+    <script>
+        let profissionais = [];
+        
+        function toggleForm(id) {
+            let form = document.getElementById(id);
+            form.style.display = form.style.display === 'block' ? 'none' : 'block';
+        }
+
+        function adicionarProfissional() {
+            let nome = document.getElementById('nomeProfissional').value;
+            let profissao = document.getElementById('profissaoProfissional').value;
+            let telefone = document.getElementById('telefoneProfissional').value;
+            let descricao = document.getElementById('descricaoProfissional').value;
+            
+            if (nome && profissao && telefone && descricao) {
+                profissionais.push({ nome, profissao, telefone, descricao });
+                alert('Profissional cadastrado com sucesso!');
+            } else {
+                alert('Preencha todos os campos!');
+            }
+        }
+
+        function filtrarProfissionais() {
+            let filtro = document.getElementById("filtroProfissao").value.toLowerCase();
+            let lista = document.getElementById("listaCadastros");
+            lista.innerHTML = "";
+
+            profissionais.forEach(profissional => {
+                if (profissional.profissao.toLowerCase().includes(filtro)) {
+                    let card = document.createElement("div");
+                    card.classList.add("profile-card");
+                    card.innerHTML = `<h3>${profissional.nome}</h3>
+                                      <p><strong>Profissão:</strong> ${profissional.profissao}</p>
+                                      <p><strong>Telefone:</strong> ${profissional.telefone}</p>
+                                      <p><strong>Descrição:</strong> ${profissional.descricao}</p>`;
+                    lista.appendChild(card);
+                }
+            });
+        }
+    </script>
 </body>
 </html>
