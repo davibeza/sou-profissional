@@ -54,6 +54,11 @@
             padding: 10px;
             width: 90%;
         }
+        .message {
+            color: green;
+            font-weight: bold;
+            display: none;
+        }
         .profile-card {
             border: 1px solid #ccc;
             padding: 10px;
@@ -78,13 +83,14 @@
     </div>
     
     <div class="container">
-        <h2 class="title" onclick="toggleForm('profissional')">Profissionais</h2>
+        <h2 class="title" onclick="toggleForm('profissional')">Sou Profissional</h2>
         <div id="profissional" class="form-container">
             <input type="text" id="nomeProfissional" placeholder="Nome Completo">
             <input type="text" id="profissaoProfissional" placeholder="Profissão">
             <input type="text" id="telefoneProfissional" placeholder="Telefone">
             <textarea id="descricaoProfissional" placeholder="Descrição"></textarea>
-            <button onclick="adicionarProfissional()">Cadastrar</button>
+            <button onclick="adicionar('profissional')">Cadastrar</button>
+            <p class="message" id="msgProfissional">Cadastrado com sucesso!</p>
         </div>
 
         <h2 class="title" onclick="toggleForm('precisoProfissional')">Preciso de um Profissional</h2>
@@ -92,8 +98,9 @@
             <input type="text" id="nomeCliente" placeholder="Nome Completo">
             <input type="text" id="profissaoCliente" placeholder="Qual Profissional?">
             <input type="text" id="telefoneCliente" placeholder="Telefone">
-            <textarea id="descricaoCliente" placeholder="Descrição do Serviço"></textarea>
-            <button onclick="adicionarCliente()">Cadastrar</button>
+            <textarea id="descricaoCliente" placeholder="Descrição"></textarea>
+            <button onclick="adicionar('precisoProfissional')">Cadastrar</button>
+            <p class="message" id="msgCliente">Cadastrado com sucesso!</p>
         </div>
 
         <h2 class="title" onclick="toggleForm('cadastros')">Pessoas Cadastradas</h2>
@@ -110,24 +117,35 @@
 
     <script>
         let profissionais = [];
-        
+
         function toggleForm(id) {
             let form = document.getElementById(id);
             form.style.display = form.style.display === 'block' ? 'none' : 'block';
         }
 
-        function adicionarProfissional() {
-            let nome = document.getElementById('nomeProfissional').value;
-            let profissao = document.getElementById('profissaoProfissional').value;
-            let telefone = document.getElementById('telefoneProfissional').value;
-            let descricao = document.getElementById('descricaoProfissional').value;
-            
-            if (nome && profissao && telefone && descricao) {
+        function adicionar(tipo) {
+            let nome = document.getElementById(`nome${capitalize(tipo)}`).value;
+            let profissao = document.getElementById(`profissao${capitalize(tipo)}`).value;
+            let telefone = document.getElementById(`telefone${capitalize(tipo)}`).value;
+            let descricao = document.getElementById(`descricao${capitalize(tipo)}`).value;
+
+            if (tipo === 'profissional') {
                 profissionais.push({ nome, profissao, telefone, descricao });
-                alert('Profissional cadastrado com sucesso!');
-            } else {
-                alert('Preencha todos os campos!');
             }
+
+            document.getElementById(`msg${capitalize(tipo)}`).style.display = 'block';
+            setTimeout(() => {
+                document.getElementById(`msg${capitalize(tipo)}`).style.display = 'none';
+            }, 3000);
+
+            document.getElementById(`nome${capitalize(tipo)}`).value = "";
+            document.getElementById(`profissao${capitalize(tipo)}`).value = "";
+            document.getElementById(`telefone${capitalize(tipo)}`).value = "";
+            document.getElementById(`descricao${capitalize(tipo)}`).value = "";
+        }
+
+        function capitalize(string) {
+            return string.charAt(0).toUpperCase() + string.slice(1);
         }
 
         function filtrarProfissionais() {
@@ -135,16 +153,13 @@
             let lista = document.getElementById("listaCadastros");
             lista.innerHTML = "";
 
-            profissionais.forEach(profissional => {
-                if (profissional.profissao.toLowerCase().includes(filtro)) {
-                    let card = document.createElement("div");
-                    card.classList.add("profile-card");
-                    card.innerHTML = `<h3>${profissional.nome}</h3>
-                                      <p><strong>Profissão:</strong> ${profissional.profissao}</p>
-                                      <p><strong>Telefone:</strong> ${profissional.telefone}</p>
-                                      <p><strong>Descrição:</strong> ${profissional.descricao}</p>`;
-                    lista.appendChild(card);
-                }
+            let filtrados = profissionais.filter(p => p.profissao.toLowerCase().includes(filtro));
+
+            filtrados.forEach(prof => {
+                let div = document.createElement("div");
+                div.classList.add("profile-card");
+                div.innerHTML = `<strong>${prof.nome}</strong><br>Profissão: ${prof.profissao}<br>Telefone: ${prof.telefone}<br>Descrição: ${prof.descricao}`;
+                lista.appendChild(div);
             });
         }
     </script>
